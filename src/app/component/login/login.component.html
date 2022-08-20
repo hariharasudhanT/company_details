@@ -1,0 +1,76 @@
+<section id="header">
+    <div id="header-container">
+        <span id="title">
+            {{ header }}
+        </span>
+    </div>
+</section>
+<p-toast></p-toast>
+
+<section id="content">
+    <br>
+    <h3>{{subheader}}</h3>
+    <form [formGroup]="userform">
+        <div class="group">
+            <label for="floatinginput"> {{ user == 'Admin' ? 'Company Name': 'Emp Id' }}</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" [ngClass]="
+                (genInfoForm.username.touched || submitted) &&
+                genInfoForm.username.errors?.required
+                  ? 'red-box'
+                  : ''
+              " minlength="3" pKeyFilter="alphanum" [placeholder]="user == 'Admin' ? 'M8itsolutions': 'Emp Id'" maxlength="20" id="floatinginput"
+                    formControlName="username">
+
+            </div>
+            <div class="text-danger" *ngIf="
+            (genInfoForm.username.touched || submitted) &&
+            genInfoForm.username.errors?.required
+                                        ">
+                 {{ user == 'Admin' ? 'Company Name is required': 'Emp Id is required' }}
+            </div>
+        </div>
+        <div class="group">
+            <label for="floatingPassword">Password</label>
+            <div class="input-group mb-3">
+                <input [type]="dataType" pPassword [ngClass]="
+                (genInfoForm.password.touched || submitted) &&
+                genInfoForm.password.errors?.required
+                  ? 'red-box'
+                  : ''
+              " minlength="4" maxlength="16" [pKeyFilter]="blockSpace" class="form-control" id="floatingPassword"
+                    formControlName="password" [placeholder]="user == 'Admin' ? 'Hari#123': 'Password'"   aria-label="Password">
+                <span class="input-group-text">
+                    <i *ngIf="dataType =='text'" class="pi pi-eye" (click)="dataType ='password'"></i>
+                    <i *ngIf="dataType =='password'" class="pi pi-eye-slash" (click)="dataType = 'text'"></i>
+                </span>
+            </div>
+            <div class="text-danger" *ngIf="
+            (genInfoForm.password.touched || submitted) &&
+            genInfoForm.password.errors?.required
+                                        ">
+                Password is required
+            </div>
+        </div>
+
+
+        <div class="containerw">
+            <div class="row">
+                <div class="col-sm-2">
+                    <a href="/m8itsolutions">
+                        <button class="btn btn-outline-secondary"  type="button">Back</button>
+                    </a>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-outline-secondary" (click)="onSubmit()" type="button">Login</button>
+                </div>
+                <!-- <div class="col-sm-8">
+                    <a class="dropdown-item" *ngIf="user == 'Admin'" style="margin-left: 10rem;" href="/forgot">Forgot Password</a>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- <hr *ngIf="user == 'Admin'">
+        <a class="dropdown-item" *ngIf="user == 'Admin'" href="/register">Don't have an account?</a> -->
+    </form>
+</section>

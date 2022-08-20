@@ -1,0 +1,294 @@
+
+<section id="header">
+    <div id="header-container">
+        <span id="title">
+            {{ header }}
+        </span>
+    </div>
+</section>
+<p-toast></p-toast>
+
+<section id="content">
+    <form [formGroup]="registerform">
+        <h3>{{ subheader }}</h3>
+        <div class="group">
+            <label for="floatingInput">Employee Id</label>
+            <div class="input-group mb-3">
+                <input type="text" minlength="6" pKeyFilter="alphanum" [ngClass]="
+            form.c_empId.invalid && submitted && form.c_empId.errors?.required
+              ? 'red-box'
+              : ''
+          " maxlength="6" class="form-control" formControlName="c_empId" id="floatingInput" />
+            </div>
+            <div class="text-danger" *ngIf="
+          form.c_empId.invalid && submitted && form.c_empId.errors?.required
+        ">
+                Employee Id is required
+            </div>
+        </div>
+        <div class="group">
+            <label for="floatingInput">Employee Name</label>
+            <div class="input-group mb-3">
+                <input type="text" minlength="3" (keydown)="onKeyDownEvent($event)" [ngClass]="
+            form.c_name.invalid && submitted && form.c_name.errors?.required
+              ? 'red-box'
+              : ''
+          " maxlength="16" class="form-control" formControlName="c_name" id="floatingInput" />
+            </div>
+            <div class="text-danger" *ngIf="form.c_name.invalid && submitted && form.c_name.errors?.required">
+                User Name is required
+            </div>
+        </div>
+
+        <div class="group" style="margin-bottom: 9%">
+            <label for="floatingdate">Date of Brith</label>
+            <div class="form-floating mb-3">
+                <p-calendar formControlName="n_dob" [maxDate]="maxDate" [defaultDate]="maxDate"
+                    [style]="{ width: '100%', height: 'calc(2.3rem + 2px)' }" id="floatingdate"></p-calendar>
+            </div>
+            <div class="text-danger" style="margin-top: 37px !important; margin-bottom: -32px !important"
+                *ngIf="form.n_dob.invalid && submitted && form.n_dob.errors?.required">
+                Date of Brith is required
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="floatingGender" style="margin-right: 20px">Gender</label><br />
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="c_gender" id="floatingGender" value="Male"
+                    formControlName="c_gender" [ngClass]="
+            form.c_gender.invalid && submitted && form.c_gender.errors?.required
+              ? 'red-box'
+              : ''
+          " />
+                <label class="form-check-label" for="inlineRadio1">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="c_gender" id="inlineRadio2" value="Female"
+                    formControlName="c_gender" [ngClass]="
+            form.c_gender.invalid && submitted && form.c_gender.errors?.required
+              ? 'red-box'
+              : ''
+          " />
+                <label class="form-check-label" for="inlineRadio2">Female</label>
+            </div>
+            <br />
+            <div class="text-danger" style="margin-top: 0px !important; margin-bottom: 4px !important" *ngIf="
+          form.c_gender.invalid && submitted && form.c_gender.errors?.required
+        ">
+                Gender is required
+            </div>
+        </div>
+        <div class="group">
+            <label for="floatingState">State</label>
+            <div class="input-group mb-3">
+                <select class="form-select" id="floatingState" formControlName="n_state" (change)="stateChanged()"
+                    [ngClass]="
+            form.n_state.invalid && submitted && form.n_state.errors?.required
+              ? 'red-box'
+              : ''
+          ">
+                    <option disabled selected value="">Select State</option>
+                    <option *ngFor="let state of stateList?.data" value="{{ state?.state_name }}">
+                        {{ state?.state_name }}
+                    </option>
+                </select>
+            </div>
+            <div class="text-danger" *ngIf="
+          form.n_state.invalid && submitted && form.n_state.errors?.required
+        ">
+                State is required
+            </div>
+        </div>
+
+        <div class="group">
+            <label for="floatingDistrict">District</label>
+            <div class="input-group mb-3">
+                <select class="form-select" id="floatingDistrict" (change)="districtChanged()"
+                    [attr.disabled]="form.n_state.value ? null : true" formControlName="n_district" [ngClass]="
+            form.n_district.invalid &&
+            submitted &&
+            form.n_district.errors?.required
+              ? 'red-box'
+              : ''
+          ">
+                    <option disabled selected value="">Select District</option>
+                    <option *ngFor="let district of districtlist?.data" value="{{ district?.district_name }}">
+                        {{ district?.district_name }}
+                    </option>
+                </select>
+            </div>
+            <div class="text-danger" *ngIf="
+          form.n_district.invalid &&
+          submitted &&
+          form.n_district.errors?.required
+        ">
+                District is required
+            </div>
+        </div>
+
+        <div class="group">
+            <label for="floatingCity">City</label>
+            <div class="input-group mb-3">
+                <select class="form-select" [attr.disabled]="form.n_district.value ? null : true" id="floatingCity"
+                    formControlName="n_city" [ngClass]="
+            form.n_city.invalid && submitted && form.n_city.errors?.required
+              ? 'red-box'
+              : ''
+          ">
+                    <option disabled selected value="">Select City</option>
+                    <option *ngFor="let city of citylist?.data" value="{{ city?.city_name }}">
+                        {{ city?.city_name }}
+                    </option>
+                </select>
+            </div>
+            <div class="text-danger" *ngIf="form.n_city.invalid && submitted && form.n_city.errors?.required">
+                City is required
+            </div>
+        </div>
+
+        <div class="group">
+            <label for="floatingPincode">Pincode</label>
+            <div class="input-group mb-3">
+                <input type="text" maxlength="6" minlength="6" pKeyFilter="num" id="floatingPincode"
+                    class="form-control" formControlName="n_pincode" [ngClass]="
+            form.n_pincode.invalid &&
+            submitted &&
+            form.n_pincode.errors?.required
+              ? 'red-box'
+              : ''
+          " />
+            </div>
+            <div class="text-danger" *ngIf="
+          form.n_pincode.invalid && submitted && form.n_pincode.errors?.required
+        ">
+                Pincode is required
+            </div>
+            <div class="text-danger" *ngIf="
+          form.n_pincode.invalid &&
+          submitted &&
+          !form.n_pincode.errors?.required
+        ">
+                1 Pincode is required
+            </div>
+        </div>
+
+        <div class="group">
+            <label for="floatingAddress">Address</label>
+            <div class="input-group mb-3">
+                <input type="text" maxlength="50" [pKeyFilter]="blockSpecial" id="floatingAddress" class="form-control"
+                    formControlName="c_address" [ngClass]="
+            form.c_address.invalid &&
+            submitted &&
+            form.c_address.errors?.required
+              ? 'red-box'
+              : ''
+          " />
+            </div>
+            <div class="text-danger" *ngIf="
+          form.c_address.invalid && submitted && form.c_address.errors?.required
+        ">
+                Address is required
+            </div>
+        </div>
+
+        <div class="group">
+            <label for="floatingPhoneNumber">Phone Number</label>
+            <div class="input-group mb-3">
+                <input type="text" maxlength="10" pKeyFilter="num" (keypress)="phone($event)" id="floatingPhoneNumber"
+                    class="form-control" formControlName="c_mobile_no" [ngClass]="
+            form.c_mobile_no.invalid &&
+            submitted &&
+            form.c_mobile_no.errors?.required
+              ? 'red-box'
+              : ''
+          " />
+            </div>
+
+            <div *ngIf="form.c_mobile_no.invalid && submitted" class="text-danger">
+                <div *ngIf="form.c_mobile_no.errors?.required" class="required-text">
+                    Phone Number is required
+                </div>
+                <div *ngIf="!form.c_mobile_no.errors?.required" class="required-text">
+                    Enter valid Phone Number is required
+                </div>
+            </div>
+        </div>
+
+        <div class="group">
+            <label for="floatingEmailId">Email Id</label>
+            <div class="input-group mb-3">
+                <input type="email" id="floatingEmailId" pKeyFilter="email" class="form-control"
+                    formControlName="c_emailid" [ngClass]="
+            (form.c_emailid.invalid &&
+              submitted &&
+              form.c_emailid.errors?.required) ||
+            form.c_emailid.errors?.pattern
+              ? 'red-box'
+              : ''
+          " />
+            </div>
+            <div *ngIf="form.c_emailid.invalid && submitted" class="text-danger">
+                <div *ngIf="form.c_emailid.errors?.required">Email is required</div>
+                <div class="email-validtn" *ngIf="form.c_emailid.errors?.pattern">
+                    Enter a valid Email
+                </div>
+            </div>
+        </div>
+
+    
+        <div class="group">
+            <label for="floatingPassword">Password</label>
+            <div class="input-group mb-3">
+                <input [type]="dataType" minlength="4" maxlength="16" [pKeyFilter]="blockSpace" class="form-control"
+                    id="floatingPassword" pPassword formControlName="c_password" placeholder="Password"
+                    aria-label="Password" [ngClass]="
+            form.c_password.invalid &&
+            submitted &&
+            form.c_password.errors?.required
+              ? 'red-box'
+              : ''
+          " />
+                <span class="input-group-text">
+                    <i *ngIf="dataType == 'text'" class="pi pi-eye" (click)="dataType = 'password'"></i>
+                    <i *ngIf="dataType == 'password'" class="pi pi-eye-slash" (click)="dataType = 'text'"></i>
+                </span>
+            </div>
+            <div class="text-danger" *ngIf="
+          form.c_password.invalid &&
+          submitted &&
+          form.c_password.errors?.required
+        ">
+                Password is required
+            </div>
+        </div>
+
+        <!-- <div class="input-group">
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-outline-secondary" (click)="onSubmit()" type="button">
+                        Register
+                    </button>
+                </div>
+                <div class="col mg-2">
+                    <a class="dropdown-item" href="/login">Already have a Account</a>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="input-group">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/dashboard">
+                        <button class="btn btn-outline-secondary"  type="button">Back</button>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-outline-secondary" (click)="onSubmit()" type="button">
+                        Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

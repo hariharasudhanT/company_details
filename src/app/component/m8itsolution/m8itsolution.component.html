@@ -1,0 +1,39 @@
+<section id="header">
+    <div id="header-container">
+        <span id="title">
+            {{ header }}
+        </span>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <p-card header="Management">
+                <a>
+                    <div class="login-form" (click)="login('Admin')">
+                        Management Login
+                    </div>
+                </a>
+            </p-card>
+        </div>
+        <div class="col-sm">
+            <p-card header="Employee">
+                <a>
+                    <div class="login-form" (click)="login('Login')">
+                        Employee Login
+                    </div>
+                </a>
+            </p-card>
+        </div>
+        <div class="col-sm">
+            <p-card header="Team Members">
+                <a href="/team-login">
+                    <div class="login-form">
+                        Member Login
+                    </div>
+                </a>
+            </p-card>
+        </div>
+    </div>
+</div>
